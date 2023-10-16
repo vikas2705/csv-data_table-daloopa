@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -15,12 +15,26 @@ const style = {
     p: 4,
 };
 
-const EditModal = ({ rowData, open, handleClose, tableHeaders }) => {
-    console.log({ rowData });
-    console.log({ tableHeaders });
+const EditModal = ({
+    rowData,
+    rowIndex,
+    open,
+    handleClose,
+    tableHeaders,
+    onUpdate,
+}) => {
+    const [rowDataInfo, setRowDataInfo] = useState(rowData);
 
     const handleFormSubmit = e => {
         e.preventDefault();
+        onUpdate(rowIndex, rowDataInfo);
+        handleClose();
+    };
+
+    const handleChange = (value, index) => {
+        const dataCopy = [...rowDataInfo];
+        dataCopy[index] = value;
+        setRowDataInfo(dataCopy);
     };
 
     return (
@@ -43,13 +57,17 @@ const EditModal = ({ rowData, open, handleClose, tableHeaders }) => {
                                     <input
                                         id={col}
                                         type='text'
-                                        value={rowData[index]}
+                                        value={rowDataInfo[index]}
+                                        onChange={e => {
+                                            handleChange(e.target.value, index);
+                                        }}
                                     />
                                 </div>
                             );
                         })}
 
                         <div className='btn-wrapper'>
+                            <button onClick={handleClose}>Cancel</button>
                             <input type='submit' className='submit' />
                         </div>
                     </form>

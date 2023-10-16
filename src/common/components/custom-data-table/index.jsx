@@ -6,7 +6,7 @@ import EditModal from "./edit-modal";
 
 const DEFAULT_PAGESIZE = 10;
 
-export const CustomDataTable = ({ dataList, customColumns }) => {
+export const CustomDataTable = ({ dataList, customColumns, onUpdate }) => {
     const [pageSize, setpageSize] = useState(DEFAULT_PAGESIZE);
     const [pageNum, setPageNum] = useState(1);
     const [open, setOpen] = React.useState(false);
@@ -19,18 +19,21 @@ export const CustomDataTable = ({ dataList, customColumns }) => {
         return null;
     }
 
+    const resetForm = () => {
+        setEditableData(null);
+        setEditableIndex(null);
+    };
+
     const handleEditCell = (e, data, index) => {
         e.preventDefault();
         setEditableIndex(index);
         setEditableData(data);
         setOpen(true);
-
-        console.log(data);
-        console.log(index);
     };
 
     const handleClose = () => {
         setOpen(false);
+        resetForm();
     };
 
     return (
@@ -60,6 +63,7 @@ export const CustomDataTable = ({ dataList, customColumns }) => {
                     rowIndex={editableIndex}
                     handleClose={handleClose}
                     tableHeaders={dataList[0]}
+                    onUpdate={onUpdate}
                 />
             )}
         </div>

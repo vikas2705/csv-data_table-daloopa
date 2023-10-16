@@ -28,6 +28,12 @@ export default function App() {
         return <div className='my-custom-style2'>{item}</div>;
     };
 
+    const handleDataUpdate = (rowIndex, updatedData) => {
+        const dataListCopy = [...dataList];
+        dataListCopy[rowIndex + 1] = updatedData;
+        setDataList(dataListCopy);
+    };
+
     const customColumns = [
         {
             displayName: "ACT Symbol",
@@ -67,6 +73,7 @@ export default function App() {
             <CustomDataTable
                 dataList={dataList}
                 customColumns={customColumns}
+                onUpdate={handleDataUpdate}
             />
         </div>
     );

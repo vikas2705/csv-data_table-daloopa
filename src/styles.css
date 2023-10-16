@@ -1,0 +1,66 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  margin: 50px;
+}
+
+table, th, td {
+  border: 1px solid;
+}
+
+.list-footer {
+  width: 100%;
+  margin: 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: space-between;
+  min-width: 120px;
+  margin: 0 60px;
+  border: 1px solid;
+}
+
+.pagination-item {
+  cursor: pointer;
+  border-right: 1px solid;
+  padding: 0 5px;
+}
+
+.pagination-item:last-child {
+  border-right: none;
+}
+
+.my-custom-style {
+  font-weight: bold;
+  background-color: yellow;
+}
+
+.my-custom-style2 {
+   background-color: lightblue;
+ }
+
+.table-wrapper {
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.input-container {
+  margin: 20px 5px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.input-container input {
+ padding: 5px;
+}
+
+.btn-wrapper {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}

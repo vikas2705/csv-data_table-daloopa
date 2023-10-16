@@ -1,40 +1,44 @@
-import React, { useState } from "react";
-import { DataTable } from "./data-table";
+import React, { useCallback, useState } from "react";
+import DataTable from "./data-table";
 import PageSize from "./page-size";
 import Pagination from "./pagination";
 import EditModal from "./edit-modal";
 
 const DEFAULT_PAGESIZE = 10;
 
-export const CustomDataTable = ({ dataList, customColumns, onUpdate }) => {
+const CustomDataTable = ({ dataList, customColumns, onUpdate }) => {
     const [pageSize, setpageSize] = useState(DEFAULT_PAGESIZE);
     const [pageNum, setPageNum] = useState(1);
     const [open, setOpen] = React.useState(false);
-    const totalPages = Math.ceil((dataList.length - 1) / pageSize);
 
     const [editableData, setEditableData] = useState(null);
     const [editableIndex, setEditableIndex] = useState(null);
 
+    const totalPages = Math.ceil((dataList.length - 1) / pageSize);
+
+    const resetForm = useCallback(() => {
+        setEditableData(null);
+        setEditableIndex(null);
+    }, [setEditableData, setEditableIndex]);
+
+    const handleEditCell = useCallback(
+        (e, data, index) => {
+            e.preventDefault();
+            setEditableIndex(index);
+            setEditableData(data);
+            setOpen(true);
+        },
+        [setEditableData, setEditableIndex, setOpen]
+    );
+
+    const handleClose = useCallback(() => {
+        setOpen(false);
+        resetForm();
+    }, [setOpen, resetForm]);
+
     if (dataList.length === 0) {
         return null;
     }
-
-    const resetForm = () => {
-        setEditableData(null);
-        setEditableIndex(null);
-    };
-
-    const handleEditCell = (e, data, index) => {
-        e.preventDefault();
-        setEditableIndex(index);
-        setEditableData(data);
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-        resetForm();
-    };
 
     return (
         <div>
@@ -69,3 +73,5 @@ export const CustomDataTable = ({ dataList, customColumns, onUpdate }) => {
         </div>
     );
 };
+
+export default React.memo(CustomDataTable);

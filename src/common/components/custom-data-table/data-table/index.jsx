@@ -1,6 +1,6 @@
 import React from "react";
 
-export const DataTable = ({
+const DataTable = ({
     dataList,
     pageSize,
     pageNum,
@@ -11,13 +11,17 @@ export const DataTable = ({
         return null;
     }
 
+    // getting table header
     const tableHeaders = dataList[0];
+
+    // getting table data
     const csvTableData = [...dataList];
     csvTableData.splice(0, 1);
     const tableData = csvTableData;
 
     const totalData = [...tableData];
 
+    // getting data to show based on page number and page size
     const itemsOnPage = dataList.length - (pageNum - 1) * pageSize;
     const maxPageCount = Math.min(itemsOnPage, pageSize);
     const dataToShow = totalData.splice((pageNum - 1) * pageSize, maxPageCount);
@@ -77,3 +81,5 @@ export const DataTable = ({
         </div>
     );
 };
+
+export default React.memo(DataTable);

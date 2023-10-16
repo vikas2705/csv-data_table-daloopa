@@ -18,4 +18,4 @@ const PageSize = ({ pageSize, setpageSize }) => {
     );
 };
 
-export default PageSize;
+export default React.memo(PageSize);

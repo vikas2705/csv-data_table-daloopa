@@ -1,15 +1,14 @@
 import "./styles.css";
 import Papa from "papaparse";
 import { fetchCsv } from "./common/utils/fetchCsv";
-import { useEffect, useState } from "react";
-import { CustomDataTable } from "./common/components/custom-data-table/index";
+import { useCallback, useEffect, useState } from "react";
+import CustomDataTable from "./common/components/custom-data-table/index";
 
 export default function App() {
     const [dataList, setDataList] = useState([]);
 
     async function getData() {
         const data = Papa.parse(await fetchCsv());
-        console.log(data);
         const { data: csvdata } = data;
         if (csvdata && csvdata.length) {
             setDataList(csvdata);
@@ -20,18 +19,22 @@ export default function App() {
         getData();
     }, []);
 
+    const handleDataUpdate = useCallback(
+        (rowIndex, updatedData) => {
+            const dataListCopy = [...dataList];
+            dataListCopy[rowIndex + 1] = updatedData;
+            setDataList(dataListCopy);
+        },
+        [dataList, setDataList]
+    );
+
+    /* Below are just some configuration I have tested for the CustomDataTable. The parent can create any custom config and cell can render it **/
     const customCell = item => {
         return <div className='my-custom-style'>{item}</div>;
     };
 
     const customCell2 = item => {
         return <div className='my-custom-style2'>{item}</div>;
-    };
-
-    const handleDataUpdate = (rowIndex, updatedData) => {
-        const dataListCopy = [...dataList];
-        dataListCopy[rowIndex + 1] = updatedData;
-        setDataList(dataListCopy);
     };
 
     const customColumns = [
